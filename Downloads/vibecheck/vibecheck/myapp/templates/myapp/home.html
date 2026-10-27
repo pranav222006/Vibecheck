@@ -1,0 +1,23 @@
+{% extends "myapp/base.html" %}
+{% block content %}
+<h1>How's your vibe?</h1>
+<div class="moods">
+ <button data-mood="happy">😄 Happy</button><button data-mood="stressed">😰 Stressed</button>
+ <button data-mood="sleepy">😴 Sleepy</button><button data-mood="hyped">🔥 Hyped</button>
+</div>
+<blockquote id="quote">Loading a quote…</blockquote>
+<iframe id="spotify" title="Spotify player" width="100%" height="352" style="border-radius:12px;border:0" allow="encrypted-media" loading="lazy"></iframe>
+{% endblock %}
+{% block scripts %}
+<script>
+const PL={happy:"37i9dQZF1DXdPec7aLTmlC",stressed:"37i9dQZF1DX889U0CL85jj",sleepy:"37i9dQZF1DWZd79rJ6a7lp",hyped:"37i9dQZF1DX76Wlfdnj7AP"};
+function setMood(m){document.body.dataset.mood=m;localStorage.setItem("mood",m);
+ document.getElementById("spotify").src="https://open.spotify.com/embed/playlist/"+PL[m]+"?theme=0";}
+document.querySelectorAll(".moods button").forEach(b=>b.onclick=()=>setMood(b.dataset.mood));
+setMood(localStorage.getItem("mood")||"happy");
+const FB=["Take it one vibe at a time.","Small steps still move you forward.","Breathe in. Breathe out."];
+const q=document.getElementById("quote"),ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),4000);
+fetch("/api/quote/",{signal:ctl.signal}).then(r=>r.json()).then(d=>q.textContent=`“${d.text}” — ${d.author}`)
+ .catch(()=>q.textContent="“"+FB[Math.floor(Math.random()*FB.length)]+"”").finally(()=>clearTimeout(t));
+</script>
+{% endblock %}

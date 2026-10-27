@@ -1,0 +1,6 @@
+{% extends "myapp/base.html" %}{% block title %}FAQs{% endblock %}
+{% block content %}<h1>Frequently Asked Questions</h1>
+<form class="row" method="get"><input name="q" value="{{ q }}" placeholder="Search…">
+<select name="category"><option value="">All categories</option>{% for c in cats %}<option {% if c == cat %}selected{% endif %}>{{ c }}</option>{% endfor %}</select><button>Filter</button></form>
+{% for f in faqs %}<details class="card"><summary>{{ f.question }} <small>{{ f.category }}</small></summary><p>{{ f.answer }}</p></details>
+{% empty %}<p>No FAQs found.</p>{% endfor %}{% endblock %}
