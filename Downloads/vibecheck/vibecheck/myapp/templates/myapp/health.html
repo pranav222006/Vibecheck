@@ -1,7 +1,0 @@
-{% extends "myapp/base.html" %}{% block title %}Health{% endblock %}
-{% block content %}<h1>Health: {{ h.status }}</h1>
-<div class="grid"><div class="card">SQL<br><b>{{ h.sql }}</b></div><div class="card">MongoDB<br><b>{{ h.mongodb }}</b></div>
-<div class="card">Quote API<br><b>{{ h.third_party_api }}</b> ({{ h.third_party_latency_ms }} ms)</div></div>
-<p><a href="?format=json">JSON view</a></p><h2>Recent requests</h2>
-<div class="table-wrap"><table><tr><th>Time</th><th>Method</th><th>Path</th><th>Status</th><th>ms</th></tr>
-{% for l in logs %}<tr><td>{{ l.time }}</td><td>{{ l.method }}</td><td>{{ l.path }}</td><td>{{ l.status }}</td><td>{{ l.ms }}</td></tr>{% endfor %}</table></div>{% endblock %}
